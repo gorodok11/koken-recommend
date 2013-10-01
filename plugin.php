@@ -29,6 +29,7 @@ OUT;
 		$customTitle = addslashes($this->data->customTitle);
 		$customDesc = addslashes($this->data->customDescription);
 		$offset = (strlen($this->data->offset) > 0) ? $this->data->offset : 100;
+		$visibility = (empty($this->data->visibility)) ? 'auto' : $this->data->visibility;
 		
 		echo <<<OUT
 <script>
@@ -41,7 +42,15 @@ $(function() {
 			offset = parseInt("$offset", 10),
 			getRandom = function(max) {
 				return Math.floor(Math.random() * max);
-			};
+			},
+			scrollHandler = function() {
+				if ('$visibility' === 'scroll') {
+					canOpen = false;
+					$(document).off('.koken_recommend').on('scroll.koken_recommend', function() {
+						canOpen = true;
+					});
+				}
+			}
 		
 		if (!isEssay && !isPage) { return; }
 		if (isPage && $doNotShowOnPages == 1) { return; }
@@ -66,15 +75,15 @@ $(function() {
 				}			
 				hasData = true;
 				canOpen == true && $('#plugin_koken_recommend').removeClass('hide');
+				scrollHandler();
 			}
 		});
-		if ($.waypoints('viewportHeight') > $('#content').height()) {
-			offset = -1;
-		}
-		if (offset < 0) {
+
+		if ('$visibility' === 'always' || ($.waypoints('viewportHeight') > $('#content').height() && '$visibility' === 'auto')) {
 			canOpen = true;
 			hasData && $('#plugin_koken_recommend').removeClass('hide');
 		} else {
+			if ('$visibility' === 'scroll') { scrollHandler(); }
 			$('body')
 				.waypoint(function(dir) {
 					canOpen = (dir === 'up');

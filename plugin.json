@@ -30,8 +30,18 @@
 		},
 		"offset": {
 			"label": "Page Offset",
-			"info": "This determines how many pixels from the bottom of the page the user must scroll within before the recommendation slides in. The default is set to 100px from the bottom. If you would like the recommendation to always be shown enter -1 into the field.",
+			"info": "This determines how many pixels from the bottom of the page the user must scroll within before the recommendation slides in. The default is set to 100px from the bottom.",
 			"type": "string"
+		},
+		"visibility": {
+			"label": "Visibility",
+			"info": "This setting determines how the visibility for the plugin will work. Auto will show the slider once the page has been scrolled into view, otherwise it will show it automatically. Scroll will show only if a scroll event has been triggered. And always will show the slide automatically on page load.",
+			"type": "select",
+			"options": [
+				{"value": "auto", "label": "Auto"},
+				{"value": "scroll", "label": "Scroll"},
+				{"value": "always", "label": "Always"}
+			]
 		}
 	}
 }
